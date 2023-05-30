@@ -12,70 +12,70 @@ console.log(error);
   }
 });
 
-// GET a single post by id
-router.get('/:id', getPost, (req, res) => {
-  res.json(res.post);
-});
+// New - handled by React
 
-// CREATE a new post
-router.post('/', async (req, res) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    author: req.body.author,
-    timestamp: req.body.timestamp
-  });
-
+//Delete - DELETE a post
+router.delete('/:id', async (req, res) => {
   try {
-    const newPost = await post.save();
-    res.redirect('/posts'); // fixed the redirect call
+    await Post.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Post deleted' });
   } catch (error) {
     console.log(error);
   }
 });
 
-// UPDATE a post by id
-router.put('/:id', getPost, async (req, res) => {
-  if (req.body.title != null) {
-    res.post.title = req.body.title;
-  }
-
-  if (req.body.content != null) {
-    res.post.content = req.body.content;
-  }
-
+//Update 
+router.put('/:id', async (req, res) => {
+  const { title, content, image, author, timestamp } = req.body;
   try {
-    const updatedPost = await res.post.save(); 
+    const updatedPost = await Post.findByIdAndUpdate(req.params.id, {
+      title,
+      content,
+      image,
+      author,
+      timestamp
+    }, { new: true }); // new: true returns the updated post
     res.json(updatedPost);
   } catch (error) {
     console.log(error);
   }
 });
 
-// DELETE a post by id
-router.delete('/:id', getPost, async (req, res) => {
+//Create
+router.post('/', async (req, res) => {
   try {
-    await res.post.remove();
-    res.json({ message: 'Post deleted' });
+    const createdPost = await Post.create(req.body);
+    res.json(createdPost);
   } catch (error) {
- console.log(error);
+    console.log(error);
   }
 });
 
-// get a post by id
-async function getPost(req, res, next) {
-  try {
-    const post = await Post.findById(req.params.id);
-
-    if (post === null) {
-      return res.status(404).json({ message: 'Post not found' });
+// Edit - handled by React
+  
+// Show - GET a single post
+  router.get('/:id', async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      res.json(post);
+    } catch (error) {
+      console.log(error);
     }
+  });
 
-    res.post = post;
-    next();
+
+// find by title - search query
+router.get('/search', async (req, res) => {
+  try {
+    const posts = await Post.find({ title: req.query.title });
+    res.json(posts);
   } catch (error) {
- console.log(error);
+    console.log(error);
   }
-}
+});
+
+
+
+
 
 module.exports = router;
