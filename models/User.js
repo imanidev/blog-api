@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  
   email: {
     type: String,
     required: true,
@@ -15,11 +16,12 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: 8
   }
 });
 
-
+// save password as hash
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, salt_rounds);
