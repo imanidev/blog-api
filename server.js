@@ -3,25 +3,21 @@ require('dotenv').config();
 
 // path
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 // express
 const express = require('express');
 
+// connect to database
+require('./config/database');
+
 //instantiate express
 const app = express();
 
-// mongoose
-
-const mongoose = require('mongoose');
-
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('connected to mongodb'))
-  .catch(err => console.log(err));
-
 
 // controllers
-
-
+const postsController = require('./controllers/posts');
+const userController = require('./controllers/user');
 
 // cors
 const cors = require('cors');
@@ -36,16 +32,23 @@ app.use(logger('dev'));
 
 // middleware
 app.use((req, res, next) => {
-  next(); 
+    console.log('I run for all routes');
+    next();
 });
+
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser()); 
 app.use(express.static(path.join(__dirname, 'build')));
 
 
 // routes
-const postsRouter = require('./controllers/posts');
-const userRouter = require('./controllers/user');
+// app.use('/posts', postsController);
+// app.use('/user', userController);
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
 
 // listener
 app.listen(port, () => {

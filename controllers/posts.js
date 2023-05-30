@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 
-// GET all posts
+//  Index - GET all posts
 router.get('/', async (req, res) => {
   try {
     const posts = await Post.find();
     res.json(posts);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+console.log(error);
   }
 });
 
@@ -22,14 +22,15 @@ router.post('/', async (req, res) => {
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
-    author: req.body.author
+    author: req.body.author,
+    timestamp: req.body.timestamp
   });
 
   try {
     const newPost = await post.save();
-    res.status(201).json(newPost);
+    res.redirect('/posts'); // fixed the redirect call
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.log(error);
   }
 });
 
@@ -44,10 +45,10 @@ router.put('/:id', getPost, async (req, res) => {
   }
 
   try {
-    const updatedPost = await res.post.save();
+    const updatedPost = await res.post.save(); 
     res.json(updatedPost);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.log(error);
   }
 });
 
@@ -57,23 +58,23 @@ router.delete('/:id', getPost, async (req, res) => {
     await res.post.remove();
     res.json({ message: 'Post deleted' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+ console.log(error);
   }
 });
 
-// middleware function to get a post by id
+// get a post by id
 async function getPost(req, res, next) {
   try {
     const post = await Post.findById(req.params.id);
 
-    if (post == null) {
+    if (post === null) {
       return res.status(404).json({ message: 'Post not found' });
     }
 
     res.post = post;
     next();
   } catch (error) {
-    res.status(500).json({ message: error.message });
+ console.log(error);
   }
 }
 
