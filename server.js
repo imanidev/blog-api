@@ -8,6 +8,9 @@ const cookieParser = require('cookie-parser');
 // express
 const express = require('express');
 
+// post model
+const Post = require('./models/Post');
+
 // connect to database
 require('./config/database');
 
@@ -39,15 +42,28 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 //routes
 const postRoutes = require('./routes/post');
-
-
 app.use('/posts', postRoutes);
-
-
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World!</h1>');
 });
+
+//import seed data
+const postData = require('./utilities/data');
+
+//seed data
+app.get('/seed', async (req,res) => {
+  try {
+    await Post.deleteMany({});
+    await Post.insertMany(postData);
+    res.send('Posts seeded!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error seeding');
+  }
+});
+
+
 
 // listener
 app.listen(PORT, () => {
