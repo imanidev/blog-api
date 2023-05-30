@@ -26,7 +26,8 @@ const cors = require('cors');
 const port = 3000;
 
 // other variables
-const logger = require('morgan')
+const logger = require('morgan');
+const Post = require('./models/Post');
 app.use(logger('dev')); 
 
 
@@ -41,13 +42,16 @@ app.use(express.json());
 app.use(cookieParser()); 
 app.use(express.static(path.join(__dirname, 'build')));
 
+//import routes
+const postRoutes = require('./routes/post');
+const userRoutes = require('./routes/user');
 
 // routes
-// app.use('/posts', postsController);
-// app.use('/user', userController);
+app.use('/posts', postRoutes);
+app.use('/user', userRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('<h1>Hello World!</h1>');
 });
 
 // listener
