@@ -41,8 +41,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(logger('dev')); 
 
-
-
 //import seed data
 const seedData = require('./utilities/data');
 
