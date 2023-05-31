@@ -3,18 +3,17 @@ const router = express.Router()
 const Post = require('../models/Post');
 
 //show all posts
-router.get('/', (req, res) => {
-  Post.find({})
-    .then((posts) => {
-      res.json(posts);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+router.get('/', async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.json(posts);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //create new post
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString('en-US', {
@@ -25,12 +24,11 @@ router.post('/', (req, res) => {
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
-      image: req.body.image,
       author: req.body.author,
       createdAt: formattedDate,
       updatedAt: formattedDate
     });
-    const createdPost = post.save();
+    const createdPost = await post.save();
     res.json(createdPost);
   } catch (error) {
     console.log(error);
@@ -38,14 +36,13 @@ router.post('/', (req, res) => {
 });
 
 // delete a post
-router.delete('/:id', (req, res) => {
-  Post.findOneAndDelete({ _id: req.params.id })
-    .then(() => {
-      res.json({ message: 'Post deleted' });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+router.delete('/:id', async (req, res) => {
+  try {
+    await Post.findOneAndDelete({ _id: req.params.id });
+    res.json({ message: 'Post deleted' });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //update post by id
@@ -64,15 +61,14 @@ router.put('/:id', async (req, res) => {
 });
 
 //get post by id  
-router.get('/:id', (req, res) => {
-  Post.findById(req.params.id)
-    .then((foundPost) => {
-      res.json(foundPost);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+router.get('/:id', async (req, res) => {
+  try {
+    const foundPost = await Post.findById(req.params.id);
+    res.json(foundPost);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-
 module.exports = router;
+

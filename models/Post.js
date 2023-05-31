@@ -10,7 +10,7 @@ const formattedDate = currentDate.toLocaleDateString('en-US', {
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,
@@ -18,7 +18,7 @@ const postSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: false
+    required: false,
   },
   author: {
     type: String,
