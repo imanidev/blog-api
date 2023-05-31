@@ -1,57 +1,80 @@
+const express = require('express')
+const router = express.Router()
 const Post = require('../models/Post');
 
 
-//get all posts
-exports.getAllPosts = async (req, res) => {
-  try {
-    const posts = await Post.find();
-    res.json(posts);
-  } catch (error) {
-    console.log(error);
-  }
-};
+
+
+//show all posts
+router.get('/', (req, res) => {
+  Post.find({})
+    .then((posts) => {
+      res.json(posts);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
 
 //create new post
-exports.createPost = async (req, res) => {
+router.post('/', (req, res) => {
   try {
-    const createdPost = await Post.create(req.body);
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric'
+    });
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      image: req.body.image,
+      author: req.body.author,
+      createdAt: formattedDate,
+      updatedAt: formattedDate
+    });
+    const createdPost = post.save();
     res.json(createdPost);
   } catch (error) {
     console.log(error);
   }
-};
+});
 
-//get post by id
-exports.getPostById = async (req, res) => {
-  try {
-    const foundPost = await Post.findById(req.params.id);
-    res.json(foundPost);
-  } catch (error) {
-    console.log(error);
-  }
-};
+  //get post by id  
+router.get('/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then((foundPost) => {
+      res.json(foundPost);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
 
-//update post by id
-exports.updatePostById = async (req, res) => {
-  const { title, content, image } = req.body;
-  try {
-    const updatedPost = await Post.findByIdAndUpdate(req.params.id, {
-      title,
-      content,
-      image
-    }, { new: true }); //returns the updated post
-    res.json(updatedPost); 
-  } catch (error) {
-    console.log(error);
-  }
-};
+  //update post by id
 
-//delete post by id
-exports.deletePostById = async (req, res) => {
-  try {
-    await Post.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Post deleted' });
-  } catch (error) {
+  router.put('/:id', async (req, res) => {
+const { title, content, image } = req.body;
+Post.findByIdAndUpdate(req.params.id, { title, content, image }, { new: true })
+  .then((updatedPost) => {
+    res.json(updatedPost);
+  })
+  .catch((error) => {
     console.log(error);
-  }
-};
+  });
+});
+
+  
+  // delete a post
+router.delete('/:id', (req, res) => {
+  Post.findOneAndDelete({ _id: req.params.id })
+    .then(() => {
+      res.json({ message: 'Post deleted' });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+
+  module.exports = router;
