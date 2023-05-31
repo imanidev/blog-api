@@ -2,9 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Post = require('../models/Post');
 
-
-
-
 //show all posts
 router.get('/', (req, res) => {
   Post.find({})
@@ -40,32 +37,7 @@ router.post('/', (req, res) => {
   }
 });
 
-  //get post by id  
-router.get('/:id', (req, res) => {
-  Post.findById(req.params.id)
-    .then((foundPost) => {
-      res.json(foundPost);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
-
-  //update post by id
-
-  router.put('/:id', async (req, res) => {
-const { title, content, image } = req.body;
-Post.findByIdAndUpdate(req.params.id, { title, content, image }, { new: true })
-  .then((updatedPost) => {
-    res.json(updatedPost);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-});
-
-  
-  // delete a post
+// delete a post
 router.delete('/:id', (req, res) => {
   Post.findOneAndDelete({ _id: req.params.id })
     .then(() => {
@@ -76,5 +48,31 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+//update post by id
+router.put('/:id', async (req, res) => {
+  const { title, content, image } = req.body;
+  try {
+    const updatedPost = await Post.findOneAndUpdate(
+      { _id: req.params.id },
+      { title, content, image },
+      { new: true }
+    );
+    res.json(updatedPost);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-  module.exports = router;
+//get post by id  
+router.get('/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then((foundPost) => {
+      res.json(foundPost);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+
+module.exports = router;
