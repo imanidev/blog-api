@@ -1,6 +1,6 @@
 # Blog API
 
-This is a robust and efficient Blog API built using the combination of Node.js, Express.js, and MongoDB. It allows users to create, read, update, and delete blog posts.
+A blog API built using the combination of Node.js, Express.js, and MongoDB. It allows users to create, read, update, and delete blog posts.
 
 This API is used in the MERN Blog Application deployed on Vercel [here](https://imani-blog.vercel.app/).
 
