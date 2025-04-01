@@ -9,10 +9,10 @@ This API is used in the MERN Blog Application deployed on Vercel [here](https://
 
 The Blog API is designed to offer a seamless backend service for blogging platforms. It handles the CRUD operations for blog posts, providing a solid foundation for any blog application.
 
-The frontend of this application uses React.js, React Router, and Vite can be found [here](https://github.com/imanidev/mern-blog).
+The frontend of this application uses React.js, React Router, and Vite can be found [here](https://github.com/imanidev/a-blog-app).
 
 ----
-  
+
 ## Technologies Used
 
 ### Back-end:
@@ -20,7 +20,7 @@ The frontend of this application uses React.js, React Router, and Vite can be fo
   - Express.js
   - MongoDB
   - Mongoose
-  
+
 ### Other tools and libraries:
   - Axios
   - Morgan
@@ -45,7 +45,7 @@ The frontend of this application uses React.js, React Router, and Vite can be fo
 ## Unsolved Problems
 
 - The API does not yet have endpoints for user authentication.
-  
+
 - There are no endpoints to support search functionality.
 ---
 ## Future Enhancements
@@ -53,13 +53,13 @@ The frontend of this application uses React.js, React Router, and Vite can be fo
 Here are some future features and enhancements planned for the Blog API:
 
 - **User Authentication:** Implement secure user registration and login endpoints.
-  
+
 - **Search Functionality:** Implement endpoints that enable users to search for specific blog posts based on keywords or tags.
-  
+
 - **Commenting System:** Introduce endpoints for comments, allowing users to add comments.
-  
+
 - **User Profile Management:** Enable users to manage their profile information through specific endpoints.
-  
+
 - **Post Categories and Tags:** Introduce categories and tags for blog posts to improve organization and facilitate content discovery.
 
 
