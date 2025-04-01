@@ -13,7 +13,6 @@ const postData = [
     author: 'Imani',
     createdAt: formattedDate,
     updatedAt: formattedDate
-
   },
   {
     title: 'Found this picture online',
@@ -41,4 +40,4 @@ const postData = [
   }
 ];
 
-    module.exports = postData;
+module.exports = postData;

@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "method-override": "^3.0.0",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.1",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7"
+  },
+  "name": "blog-api",
+  "version": "1.0.0",
+  "description": "This is a robust and efficient Blog API built using the combination of Node.js, Express.js, and MongoDB. It allows users to create, read, update, and delete blog posts.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imanidev/blog-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imanidev/blog-api/issues"
+  },
+  "homepage": "https://github.com/imanidev/blog-api#readme"
+}
